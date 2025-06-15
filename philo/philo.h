@@ -30,13 +30,13 @@ typedef struct s_times
 
 typedef struct s_philo
 {
-	int id;
-	t_times times;
-	t_mutexes mutexes;
-	int must_eat;
-	pthread_t thread_id;
-	int meals_eaten;
 	int philo_count;
+	int meals_eaten;
+	int must_eat;
+	int id;
+	pthread_t thread_id;
+	t_mutexes mutexes;
+	t_times times;
 } t_philo;
 
 typedef struct s_engine
@@ -50,12 +50,12 @@ typedef struct s_engine
 void destroy_all(t_engine *engine, char *message, int count, int code);
 void print_status(t_philo *philo, char *status);
 void start_simulation(t_engine *engine, int count);
-void *observer(void *ptr);
+void *monitor(void *ptr);
 void *start_routine(void *ptr);
 void philo_routine(t_philo *philo);
 int all_philos_eat(t_philo *philos);
 size_t ft_strlen(const char *s);
-long ft_atoi(const char *str);
+long ft_atol(const char *str);
 size_t get_current_time(void);
 void ft_usleep(size_t mls);
 void error_exit(char *message, int code);

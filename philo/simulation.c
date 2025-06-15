@@ -63,7 +63,7 @@ void *start_routine(void *ptr)
 	return (NULL);
 }
 
-void *observer(void *ptr)
+void *monitor(void *ptr)
 {
 	t_philo *philos = (t_philo *)ptr;
 	int i;
@@ -91,10 +91,10 @@ void *observer(void *ptr)
 
 void start_simulation(t_engine *engine, int count)
 {
-	pthread_t observer_id;
+	pthread_t monitor_id;
 	int i = -1;
 
-	if (pthread_create(&observer_id, NULL, &observer, engine->philos) != 0)
+	if (pthread_create(&monitor_id, NULL, &monitor, engine->philos) != 0)
 		destroy_all(engine, "Thread error\n", count, 1);
 
 	while (++i < count)
@@ -103,7 +103,7 @@ void start_simulation(t_engine *engine, int count)
 			destroy_all(engine, "Thread error\n", count, 1);
 	}
 
-	if (pthread_join(observer_id, NULL) != 0)
+	if (pthread_join(monitor_id, NULL) != 0)
 		destroy_all(engine, "Join error\n", count, 1);
 
 	i = -1;

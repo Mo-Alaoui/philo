@@ -4,19 +4,19 @@ void init_philos(t_engine *engine, t_philo *philos, t_mutex *forks, char **argv)
 {
 	int i = -1;
 
-	while (++i < ft_atoi(argv[1]))
+	while (++i < ft_atol(argv[1]))
 	{
 		philos[i].id = i + 1;
-		philos[i].times.die = ft_atoi(argv[2]);
-		philos[i].times.eat = ft_atoi(argv[3]);
-		philos[i].times.sleep = ft_atoi(argv[4]);
+		philos[i].times.die = ft_atol(argv[2]);
+		philos[i].times.eat = ft_atol(argv[3]);
+		philos[i].times.sleep = ft_atol(argv[4]);
 		philos[i].times.last_meal = get_current_time();
 		philos[i].times.born_time = get_current_time();
 		philos[i].must_eat = -1;
 		if (argv[5])
-			philos[i].must_eat = ft_atoi(argv[5]);
+			philos[i].must_eat = ft_atol(argv[5]);
 		philos[i].meals_eaten = 0;
-		philos[i].philo_count = ft_atoi(argv[1]);
+		philos[i].philo_count = ft_atol(argv[1]);
 		philos[i].mutexes.left_fork = &forks[i];
 		if (i == 0)
 			philos[i].mutexes.right_fork = &forks[philos[i].philo_count - 1];
@@ -56,7 +56,7 @@ void check_args(int argc, char **argv)
 		error_exit("Arg count error\n", 1);
 	while (++i < argc)
 	{
-		num = ft_atoi(argv[i]);
+		num = ft_atol(argv[i]);
 		if (i == 1 && (num < 1 || num > PHILO_MAX_COUNT))
 			error_exit("Invalid arg\n", 1);
 		else if (i == 5 && (num < 0 || num > INT_MAX))
@@ -74,7 +74,7 @@ int main(int argc, char **argv)
 
 	check_args(argc, argv);
 	init_engine(&engine, philos, forks);
-	init_forks(&engine, forks, ft_atoi(argv[1]));
+	init_forks(&engine, forks, ft_atol(argv[1]));
 	init_philos(&engine, philos, forks, argv);
 	start_simulation(&engine, philos[0].philo_count);
 	destroy_all(&engine, NULL, philos[0].philo_count, 0);

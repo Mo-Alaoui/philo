@@ -8,7 +8,7 @@ size_t ft_strlen(const char *s)
 	return (i);
 }
 
-long ft_atoi(const char *str)
+long ft_atol(const char *str)
 {
 	long num = 0;
 	int sign = 1;
@@ -22,8 +22,6 @@ long ft_atoi(const char *str)
 	while (str[i] >= '0' && str[i] <= '9')
 	{
 		num = num * 10 + (str[i] - '0');
-		if (num > INT_MAX)
-			break;
 		i++;
 	}
 	return (num * sign);
