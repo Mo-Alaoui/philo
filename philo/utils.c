@@ -1,13 +1,5 @@
 #include "philo.h"
 
-size_t ft_strlen(const char *s)
-{
-	int i = 0;
-	while (s[i])
-		i++;
-	return (i);
-}
-
 long ft_atol(const char *str)
 {
 	long num = 0;
@@ -32,10 +24,7 @@ size_t get_current_time(void)
 	t_timeval time;
 
 	if (gettimeofday(&time, NULL) == -1)
-	{
-		printf("Time error\n");
 		return (-1);
-	}
 	return (time.tv_sec * 1000 + time.tv_usec / 1000);
 }
 
@@ -46,9 +35,20 @@ void ft_usleep(size_t mls)
 		usleep(500);
 }
 
-// void error_exit(char *message, int code)
-// {
-// 	if (message)
-// 		write(2, message, ft_strlen(message));
-// 	exit(code);
-// }
+void destroy_all(t_engine *engine, int count)
+{
+	while (--count >= 0)
+		pthread_mutex_destroy(&engine->forks[count]);
+	pthread_mutex_destroy(&engine->write_lock);
+	pthread_mutex_destroy(&engine->meal_lock);
+}
+
+void print_status(t_philo *philo, char *status)
+{
+	size_t time;
+
+	pthread_mutex_lock(philo->mutexes.write_lock);
+	time = get_current_time() - philo->times.born_time;
+	printf("%ld %d %s\n", time, philo->id, status);
+	pthread_mutex_unlock(philo->mutexes.write_lock);
+}

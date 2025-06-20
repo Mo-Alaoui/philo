@@ -54,8 +54,6 @@ void *monitor(void *ptr);
 void *start_routine(void *ptr);
 void philo_routine(t_philo *philo);
 int all_philos_eat(t_philo *philos);
-size_t ft_strlen(const char *s);
 long ft_atol(const char *str);
 size_t get_current_time(void);
 void ft_usleep(size_t mls);
-//void error_exit(char *message, int code);

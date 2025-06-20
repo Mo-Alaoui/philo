@@ -104,7 +104,7 @@ int start_simulation(t_engine *engine, int count)
 
 	while (++i < count)
 	{
-		if (pthread_create(&engine->philos[i].thread_id, NULL, start_routine, &engine->philos[i]) != 0)
+		if (pthread_create(&engine->philos[i].thread_id, NULL, &start_routine, &engine->philos[i]) != 0)
 		{
 			printf("Thread error\n");
 			destroy_all(engine, count);

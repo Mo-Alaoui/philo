@@ -4,7 +4,7 @@ CFLAGS		= -Wall -Wextra -Werror
 RM			= rm -rf
 LINKER		= -lpthread
 
-SRCS		= main.c utils.c simulation_utils.c simulation.c
+SRCS		= main.c utils.c simulation.c
 OBJS		= $(SRCS:.c=.o)
 
 all: $(NAME)

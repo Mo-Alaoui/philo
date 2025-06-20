@@ -1,6 +1,6 @@
 #include "philo.h"
 
-int init_philos(t_engine *engine, t_philo *philos, t_mutex *forks, char **argv)
+void init_philos(t_engine *engine, t_philo *philos, t_mutex *forks, char **argv)
 {
 	int i;
 	
@@ -13,8 +13,6 @@ int init_philos(t_engine *engine, t_philo *philos, t_mutex *forks, char **argv)
 		philos[i].times.sleep = ft_atol(argv[4]);
 		philos[i].times.last_meal = get_current_time();
 		philos[i].times.born_time = get_current_time();
-		if (philos[i].times.last_meal == (size_t)-1 || philos[i].times.born_time == (size_t)-1)
-			return (1);
 		philos[i].must_eat = -1;
 		if (argv[5])
 			philos[i].must_eat = ft_atol(argv[5]);
@@ -28,7 +26,6 @@ int init_philos(t_engine *engine, t_philo *philos, t_mutex *forks, char **argv)
 		philos[i].mutexes.write_lock = &engine->write_lock;
 		philos[i].mutexes.meal_lock = &engine->meal_lock;
 	}
-	return (0);
 }
 
 int init_forks(t_engine *engine, t_mutex *forks, int count)
@@ -63,9 +60,9 @@ int init_engine(t_engine *engine, t_philo *philos, t_mutex *forks)
 int check_args(int argc, char **argv)
 {
 	long num;
-	int i;
+	int	ret, (i);
 	
-	i = 0;
+	i = 0, (ret = 0);
 	if (argc < 5 || argc > 6)
 	{
 		printf("Arg count error\n");
@@ -75,16 +72,12 @@ int check_args(int argc, char **argv)
 	{
 		num = ft_atol(argv[i]);
 		if (i == 1 && (num < 1 || num > PHILO_MAX_COUNT))
-		{
-			printf("Invalid arg\n");
-			return (1);
-		}
+			ret = 1;
 		else if (i == 5 && (num < 0 || num > INT_MAX))
-		{
-			printf("Invalid arg\n");
-			return (1);
-		}
+			ret = 1;
 		else if (i != 1 && i != 5 && (num < 60 || num > INT_MAX))
+			ret = 1;
+		if (ret == 1)
 		{
 			printf("Invalid arg\n");
 			return (1);
@@ -105,8 +98,7 @@ int main(int argc, char **argv)
 		return (1);
 	if (init_forks(&engine, forks, ft_atol(argv[1])))
 		return (1);
-	if (init_philos(&engine, philos, forks, argv))
-		return (1);
+	init_philos(&engine, philos, forks, argv);
 	if (start_simulation(&engine, philos[0].philo_count))
 		return (1);
 	destroy_all(&engine, philos[0].philo_count);
