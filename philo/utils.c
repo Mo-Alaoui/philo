@@ -32,7 +32,10 @@ size_t get_current_time(void)
 	t_timeval time;
 
 	if (gettimeofday(&time, NULL) == -1)
-		error_exit("Time error\n", 1);
+	{
+		printf("Time error\n");
+		return (-1);
+	}
 	return (time.tv_sec * 1000 + time.tv_usec / 1000);
 }
 
@@ -43,9 +46,9 @@ void ft_usleep(size_t mls)
 		usleep(500);
 }
 
-void error_exit(char *message, int code)
-{
-	if (message)
-		write(2, message, ft_strlen(message));
-	exit(code);
-}
+// void error_exit(char *message, int code)
+// {
+// 	if (message)
+// 		write(2, message, ft_strlen(message));
+// 	exit(code);
+// }

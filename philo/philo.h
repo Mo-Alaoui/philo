@@ -47,9 +47,9 @@ typedef struct s_engine
 	t_mutex write_lock;
 } t_engine;
 
-void destroy_all(t_engine *engine, char *message, int count, int code);
+void destroy_all(t_engine *engine, int count);
 void print_status(t_philo *philo, char *status);
-void start_simulation(t_engine *engine, int count);
+int start_simulation(t_engine *engine, int count);
 void *monitor(void *ptr);
 void *start_routine(void *ptr);
 void philo_routine(t_philo *philo);
@@ -58,4 +58,4 @@ size_t ft_strlen(const char *s);
 long ft_atol(const char *str);
 size_t get_current_time(void);
 void ft_usleep(size_t mls);
-void error_exit(char *message, int code);
+//void error_exit(char *message, int code);

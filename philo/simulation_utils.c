@@ -1,12 +1,11 @@
 #include "philo.h"
 
-void destroy_all(t_engine *engine, char *message, int count, int code)
+void destroy_all(t_engine *engine, int count)
 {
 	while (--count >= 0)
 		pthread_mutex_destroy(&engine->forks[count]);
 	pthread_mutex_destroy(&engine->write_lock);
 	pthread_mutex_destroy(&engine->meal_lock);
-	error_exit(message, code);
 }
 
 void print_status(t_philo *philo, char *status)

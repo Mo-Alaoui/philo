@@ -89,27 +89,45 @@ void *monitor(void *ptr)
 	return (NULL);
 }
 
-void start_simulation(t_engine *engine, int count)
+int start_simulation(t_engine *engine, int count)
 {
 	pthread_t monitor_id;
-	int i = -1;
-
+	int i;
+	
+	i = -1;
 	if (pthread_create(&monitor_id, NULL, &monitor, engine->philos) != 0)
-		destroy_all(engine, "Thread error\n", count, 1);
+	{
+		printf("Thread error\n");
+		destroy_all(engine, count);
+		return (1);
+	}
 
 	while (++i < count)
 	{
 		if (pthread_create(&engine->philos[i].thread_id, NULL, start_routine, &engine->philos[i]) != 0)
-			destroy_all(engine, "Thread error\n", count, 1);
+		{
+			printf("Thread error\n");
+			destroy_all(engine, count);
+			return (1);
+		}
 	}
 
 	if (pthread_join(monitor_id, NULL) != 0)
-		destroy_all(engine, "Join error\n", count, 1);
+	{
+		printf("Join error\n");
+		destroy_all(engine, count);
+		return (1);
+	}
 
 	i = -1;
 	while (++i < count)
 	{
 		if (pthread_detach(engine->philos[i].thread_id) != 0)
-			destroy_all(engine, "Detach error\n", count, 1);
+		{
+			printf("Detach error\n");
+			destroy_all(engine, count);
+			return (1);
+		}
 	}
+	return (0);
 }
